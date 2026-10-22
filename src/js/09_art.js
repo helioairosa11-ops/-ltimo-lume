@@ -21,7 +21,7 @@ function heroPose(p) {
   else if (!p.onGround) { if (p.vy < 0) { P.sy *= 1.06; P.sx *= .95; P.tuck = .5; } else { P.tuck = .2; P.hem = 3; } P.lean = clamp(p.vx / 900, -.15, .15) * p.face; }
   else if (Math.abs(p.vx) > 20) { const ph = p.runPh; P.legL = Math.sin(ph) * 4; P.legR = -Math.sin(ph) * 4; P.liftL = Math.max(0, Math.cos(ph)) * 3; P.liftR = Math.max(0, -Math.cos(ph)) * 3; P.lean = .12; P.sy *= 1 + Math.abs(Math.sin(ph)) * .03; P.hem = -Math.min(5, Math.abs(p.vx) / 50); }
   else { P.sy *= 1 + Math.sin(t * 2.4) * .018; }
-  if (st === 'sit') { P.sit = 1; P.sy *= .78; }
+  if (st === 'sit' || (st === 'wake' && p.wakeSit)) { P.sit = 1; P.sy *= .78; }
   if (st === 'drink') { P.mask = -.25; P.arm = 1; }
   if (p.charge > .2) { P.lean = -.1; P.sy *= .95; }
   const a = p.atk;
@@ -42,7 +42,7 @@ function heroPose(p) {
 function drawHero(c, p) {
   // rastos do dash
   for (const af of p.after) { c.save(); c.globalAlpha = af.t / .22 * .45; c.translate(af.x, af.y); c.scale(af.face, 1); c.fillStyle = '#9ab0ff'; poly(c, [-8, -30, 7, -30, 12, -6, -12, -6]); ell(c, 1, -36, 8.5, 8); c.restore(); }
-  const P = heroPose(p); if (P.alpha <= 0) return;
+  const P = heroPose(p); if (P.alpha <= 0 || p.hidden) return;
   FL = Math.min(1, p.flash);
   c.save(); c.globalAlpha = P.alpha;
   // cachecol (no mundo)

@@ -6,25 +6,35 @@ const BONFIRE_LIST = {};
 // ---------- ciclo ----------
 let _last = 0;
 function frame(now) {
-  requestAnimationFrame(frame);
+  requestAnimationFrame(frame); if (window.__FREEZE) return;
   let dtR = (now - _last) / 1000; _last = now; if (!(dtR > 0)) dtR = 1 / 60; dtR = Math.min(dtR, .05);
   TIME.real += dtR; TIME.dtReal = dtR; G.t += dtR; LIGHTS.length = 0;
-  GAME.fpsAcc += dtR; GAME.fpsN++; if (GAME.fpsAcc >= 1) { GAME.fps = GAME.fpsN / GAME.fpsAcc; GAME.fpsAcc = 0; GAME.fpsN = 0; }
+  GAME.fpsAcc += dtR; GAME.fpsN++; if (GAME.fpsAcc >= 1) { GAME.fps = GAME.fpsN / GAME.fpsAcc; GAME.fpsAcc = 0; GAME.fpsN = 0; autoQuality(); }
   pollPad();
   if (GAME.mode === 'play') {
     if (inConsume('pause')) { openPause(UI.lastTab || 'inv'); } else if (inConsume('inv')) { openPause('inv'); }
     let dt = dtR; if (TIME.slowT > 0) { TIME.slowT -= dtR; dt *= TIME.slowScale; } if (TIME.hitstop > 0) { TIME.hitstop -= dtR; dt *= .04; }
-    TIME.now += dt; step(dt);
+    TIME.now += dt; const _t0 = performance.now(); step(dt); if (window.__PERF) GAME._st = performance.now() - _t0;
   } else if (GAME.mode === 'dialog') { dlgUpdate(dtR); idle(dtR); }
   else if (GAME.mode === 'menu') { menuNav(); idle(dtR); }
   else if (GAME.mode === 'title' || GAME.mode === 'ending') { titleNav(); idle(dtR); }
   else if (GAME.mode === 'intro') { GAME.introT += dtR; if (GAME.introT > 6.5) GAME.introNext(); if (inConsume('ok') || inConsume('attack') || inConsume('jump')) GAME.introNext(); if (inConsume('back')) GAME.endIntro(); }
   UI.update(dtR); musicTick();
-  if (ROOM.cur && GAME.mode !== 'intro' && GAME.mode !== 'loading') render(dtR);
+  const _t1 = performance.now(); if (ROOM.cur && GAME.mode !== 'intro' && GAME.mode !== 'loading') render(dtR);
+  if (window.__PERF) { window.__PERF.push([Math.round(now), +(GAME._st || 0).toFixed(1), +(performance.now() - _t1).toFixed(1), G.baked || 0]); G.baked = 0; GAME._st = 0; }
+}
+// se o aparelho não aguentar, baixa a qualidade sozinho (só uma vez por nível, e nunca depois de o jogador escolher)
+function autoQuality() {
+  if (GAME.mode !== 'play' || GAME.cine || GAME.wake || GAME.transition) { GAME.slowS = 0; return; }
+  GAME.slowS = GAME.fps < 40 ? (GAME.slowS || 0) + 1 : 0;
+  if (GAME.slowS >= 4 && SET.quality !== 'baixa' && !SET.qLocked) {
+    SET.quality = SET.quality === 'alta' ? 'media' : 'baixa'; saveSettings(); resizeGfx(); ROOM.chunks.clear(); if (BG.kind) bgMake(BG.kind); GAME.slowS = 0;
+    UI.toast('Baixei a qualidade gráfica para o jogo correr mais fluido. Podes mudar em Definições.', 4);
+  }
 }
 function idle(dt) { if (!ROOM.cur) return; updParts(dt); updFx(dt); for (const e of ENTS) if (!(e instanceof Elevator)) e.update(0); if (PLAYER && GAME.mode !== 'title') { light(PLAYER.x, PLAYER.y - 26, 150, 0xffe2b8, .55); } updCamera(dt, true); }
 function step(dt) {
-  updTimers(dt);
+  updTimers(dt); if (GAME.wake) wakeUpdate(dt);
   const p = PLAYER; if (!p) return;
   p.update(dt);
   for (const e of ENEMIES.slice()) { if (Math.abs(e.x - p.x) < 900 || e.aggro || e.boss) e.update(dt); }
@@ -56,6 +66,7 @@ function render(dt) {
   drawAoes(); drawProj(); drawFx('add'); drawParts(GPARTS, true);
   drawDmgNums(dt);
   drawOverlay();
+  if (GAME.wake) drawWakeOverlay();
 }
 // ---------- câmara ----------
 function updCamera(dt, idleOnly) {
@@ -78,7 +89,7 @@ function camSnap() { CAM.shake = 0; CAM.look = PLAYER ? PLAYER.face * 40 : 0; if
 // ---------- áudio por estado ----------
 function updAudio(dt) {
   const R = ROOM.cur; if (!R || !AU.ctx) return; const b = GAME.boss;
-  if (b && b.alive && b.fighting) { } else if (GAME.quietT > 0) { GAME.quietT -= dt; music(null); } else if (PLAYER && PLAYER.alive) music(R.def.music || AREAS[R.area].music);
+  if (b && b.alive && b.fighting) { } else if (GAME.wake) music(null); else if (GAME.quietT > 0) { GAME.quietT -= dt; music(null); } else if (PLAYER && PLAYER.alive) music(R.def.music || AREAS[R.area].music);
   const amb = Object.assign({}, AREAS[R.area].amb || {}, R.def.amb || {});
   if (PLAYER) { let nb = 1e9; for (const id in GAME.bonfires) { const bf = GAME.bonfires[id]; if (bf.lit && !bf.hiddenUntil) nb = Math.min(nb, Math.abs(PLAYER.x - bf.x)); } amb.l_campfire = nb < 260 ? .5 * (1 - nb / 260) : 0; amb.l_heart = PLAYER.alive && PLAYER.hp < STATS.maxHp() * .25 ? .55 : 0; }
   if (b && b.fighting) for (const k in amb) if (k !== 'l_heart') amb[k] *= .3;
@@ -122,6 +133,7 @@ function loadRoom(id, entry = {}) {
       case 'npc': { const o = Object.assign({ id: a, x, y }, b || {}); if (o.cond && !o.cond()) break; new NPC(o); break; }
       case 'portal': new Portal(Object.assign({ to: a, spawn: b, x, y }, c || {})); break;
       case 'spawn': spawns[a] = { x, y, face: b || 1 }; break;
+      case 'wakecoffin': new WakeCoffin({ x, y }); spawns.start = { x: x + 48, y, face: 1 }; break;
       case 'torch': new Torch(Object.assign({ x, y: y - (a === 'wall' || !a ? 18 : 0), kind: a || 'wall' }, b || {})); break;
       case 'glow': new Glow(Object.assign({ x, y: y - T / 2, color: a, r: b }, c || {})); break;
       case 'prop': makeProp(a, x, y, b || {}); break;
@@ -225,7 +237,7 @@ GAME.giveItem = (id, n = 1, cb) => {
 GAME.save = () => { if (GAME.mode === 'title' || GAME.mode === 'ending') return; store.set(SAVE_KEY, JSON.stringify(PROG)); };
 GAME.hasSave = () => !!store.json(SAVE_KEY);
 GAME.newGame = () => { PROG = newProg(); store.del(SAVE_KEY); UI.el.title.hidden = true; PLAYER = null; GAME.startIntro(); };
-GAME.continueGame = () => { const s = store.json(SAVE_KEY); if (!s) { GAME.newGame(); return; } PROG = Object.assign(newProg(), s); UI.el.title.hidden = true; PLAYER = null; GAME.setMode('play'); GAME.respawnFresh(); };
+GAME.continueGame = () => { const s = store.json(SAVE_KEY); if (!s) { GAME.newGame(); return; } PROG = Object.assign(newProg(), s); PROG.flags.woke = 1; UI.el.title.hidden = true; PLAYER = null; GAME.setMode('play'); GAME.respawnFresh(); };
 GAME.respawnFresh = () => { PLAYER = null; for (const a of ACTORS.slice()) a.remove(); ACTORS.length = 0; const bf = PROG.lastBonfire && BONFIRE_LIST[PROG.lastBonfire]; if (bf) loadRoom(bf.room, { bonfire: PROG.lastBonfire }); else loadRoom(START_ROOM, { spawn: 'start' }); PROG.flasks = PROG.flaskMax; _last = performance.now(); };
 GAME.toTitle = () => { UI.closeMenus(); UI.el.ending.hidden = true; UI.el.ending.classList.remove('show'); GAME.titleSetup(); };
 // ---------- título e introdução ----------
@@ -245,9 +257,59 @@ GAME.introNext = () => {
 };
 GAME.endIntro = () => {
   if (GAME.mode !== 'intro') return; UI.el.intro.hidden = true; PROG.flasks = PROG.flaskMax; GAME.setMode('play');
-  loadRoom(START_ROOM, { spawn: 'start' }); const p = PLAYER; p.setState('sit'); _last = performance.now();
-  after(1.6, () => { if (p.state === 'sit') p.setState('idle'); showControlsHint(); });
+  PROG.seen.crypt = 1; GAME.lastArea = 'crypt'; loadRoom(START_ROOM, { spawn: 'start' }); _last = performance.now();
+  if (!PROG.flags.woke && GAME.wakeStart()) return;
+  const p = PLAYER; p.setState('sit'); after(.4, () => UI.areaTitle(AREA_NAMES.crypt, AREA_SUBS.crypt)); after(1.6, () => { if (p.state === 'sit') p.setState('idle'); showControlsHint(); });
 };
+// ---------- cena do despertar: o Desperto abre o sarcófago por dentro ----------
+const WAKE_EV = [
+  [.45, () => synth('heartbeat')],
+  [1.0, () => UI.subtitle('', 'Escuro. Frio. Pedra encostada à cara.', 2.6)],
+  [1.3, () => synth('heartbeat')],
+  [2.2, w => w.cof.knock(0)],
+  [2.55, () => synth('heartbeat')],
+  [3.1, w => w.cof.knock(1)],
+  [3.4, () => UI.subtitle('', 'Um coração que já não batia... a bater outra vez.', 2.9)],
+  [4.05, w => w.cof.knock(2)],
+  [4.5, () => synth('heartbeat')],
+  [4.95, w => { w.cof.burstOpen(); const p = PLAYER; p.hidden = false; p.wakeSit = true; p.x = w.cof.x; p.y = w.cof.y + 14; w.rise = 0; }],
+  [6.35, w => { w.rise = null; w.hop = 0; PLAYER.wakeSit = false; sfx('whoosh1', at(PLAYER, .4)); }],
+  [7.2, () => { PLAYER.face = -1; }],
+  [7.75, () => { PLAYER.face = 1; sfx('breath', at(PLAYER, .55)); burst(PLAYER.x + 8, PLAYER.y - 34, 6, { color: 0xd8d4cc, glow: false, smin: 10, smax: 30, dir: 0, spread: .6, lmin: .6, lmax: 1.1, szmin: 2, szmax: 4, grav: -20, drag: 2 }); }],
+  [8.5, () => wakeEnd(false)],
+];
+GAME.wakeStart = () => {
+  const p = PLAYER, cof = ENTS.find(e => e instanceof WakeCoffin); if (!p || !cof) return false;
+  GAME.wake = { t: 0, i: 0, cof, skip: false, rise: null, hop: null }; GAME.cine = true; document.body.classList.add('cine');
+  p.setState('wake'); p.hidden = true; p.ctrl = false; p.face = 1; p.x = cof.x; p.y = cof.y + 14; for (const s of p.scarf) { s.x = p.x; s.y = p.y - 20; }
+  CAM.zoom = 1.8; CAM.override = { x: cof.x + 36, y: cof.y - 46, zoom: 1.8, k: 2 }; CAM.x = CAM.override.x; CAM.y = CAM.override.y; music(null, .5);
+  return true;
+};
+function wakeUpdate(dt) {
+  const w = GAME.wake, p = PLAYER; w.t += dt;
+  if (w.t > 1.1 && (w.skip || inConsume('attack') || inConsume('jump') || inConsume('ok') || inConsume('interact') || inConsume('dash') || inConsume('back'))) { wakeEnd(true); return; }
+  while (w.i < WAKE_EV.length && w.t >= WAKE_EV[w.i][0]) WAKE_EV[w.i++][1](w);
+  if (!GAME.wake) return;
+  if (w.rise !== null && p.state === 'wake') { w.rise = Math.min(1, w.rise + dt / 1.2); p.x = w.cof.x; p.y = lerp(w.cof.y + 14, w.cof.y - 12, easeOut(w.rise)); }
+  if (w.hop !== null && p.state === 'wake') { w.hop = Math.min(1, w.hop + dt / .5); const k = w.hop; p.x = lerp(w.cof.x, w.cof.x + 48, k); p.y = lerp(w.cof.y - 12, w.cof.y, k) - Math.sin(k * PI) * 30; if (k >= 1) { w.hop = null; p.setState('idle'); p.vy = 0; p.onGround = true; p.squash = .3; footstep(p); burst(p.x, p.y, 8, DUST); } }
+  if (w.t > 7.6 && CAM.override) { CAM.override.zoom = 1; CAM.override.x = p.x + 40; CAM.override.y = p.y - 52; }
+}
+function wakeEnd(skip) {
+  const w = GAME.wake; if (!w) return; const p = PLAYER, cof = w.cof; GAME.wake = null;
+  if (skip) { if (!cof.open) cof.open = true; cof.lid = cof.restLid(); cof.seam = .4; p.x = cof.x + 48; p.y = cof.y; p.vy = 0; p.face = 1; p.squash = .2; }
+  if (p.state === 'wake') p.setState('idle'); p.hidden = false; p.wakeSit = false; p.ctrl = true; p.safe = { x: cof.x + 48, y: cof.y };
+  cof.layer = 'back'; GAME.cine = false; document.body.classList.remove('cine'); CAM.override = null; PROG.flags.woke = 1; GAME.save();
+  if (skip) { UI.el.subs.classList.remove('show'); }
+  after(.35, () => UI.areaTitle(AREA_NAMES.crypt, AREA_SUBS.crypt)); after(2.4, () => showControlsHint());
+}
+function drawWakeOverlay() {
+  const w = GAME.wake, c = G.ctx, t = w.t; c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; c.fillStyle = '#000';
+  const bar = G.H * .11 * (t > 7.7 ? Math.max(0, 1 - (t - 7.7) / .8) : 1); if (bar > .5) { c.fillRect(0, 0, G.W, bar); c.fillRect(0, G.H - bar, G.W, bar); }
+  const fa = t < 2.4 ? 1 - easeInOut(Math.min(1, t / 2.4)) * (t < 4.95 ? .72 : 1) : t < 4.95 ? .28 : Math.max(0, .28 - (t - 4.95) * .6);
+  if (fa > 0) { c.globalAlpha = fa; c.fillRect(0, 0, G.W, G.H); c.globalAlpha = 1; }
+  if (t > 1.1 && t < 7.7) { c.globalAlpha = .55 * Math.min(1, (t - 1.1) * 2); c.fillStyle = '#d8cfbf'; c.font = `${Math.round(11 * G.dpr)}px "EB Garamond",Georgia,serif`; c.textAlign = 'right'; c.textBaseline = 'middle'; c.fillText(IN.touch ? 'toca no ecrã para passar à frente' : 'carrega numa tecla para passar à frente', G.W - 18 * G.dpr, G.H - bar / 2); c.globalAlpha = 1; }
+}
+document.addEventListener('pointerdown', () => { if (GAME.wake && GAME.wake.t > 1.1) GAME.wake.skip = true; }, true);
 function showControlsHint() {
   const h = IN.touch ? 'Arrasta à <b>esquerda</b> para andar · <b>espada</b> ataca · <b>seta</b> salta · <b>seta com barra</b> faz dash e esquiva'
     : IN.lastDevice === 'pad' ? '<b>A</b> saltar · <b>X</b> atacar · <b>B</b> dash e esquiva · <b>RT</b> golpe forte'
@@ -273,7 +335,7 @@ function boot() {
   GAME.titleSetup();
   BUS.on('resize', () => { ROOM.chunks.clear(); if (BG.kind) bgMake(BG.kind); });
   requestAnimationFrame(t => { _last = t; requestAnimationFrame(frame); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden && GAME.mode === 'play') openPause(UI.lastTab || 'inv'); try { if (AU.ctx) { if (document.hidden) AU.ctx.suspend(); else AU.ctx.resume(); } } catch (e) { } });
-  window.__UL = { GAME, get PLAYER() { return PLAYER; }, PROG: () => PROG, setProg: p => PROG = p, ENEMIES, ACTORS, ENTS, ROOM, ROOMS, TIME, CAM, G, IN, inPress, inRelease, ITEMS, STATS, UI, BOSSDEF, EDEF, loadRoom, step: dt => step(dt), render: () => render(1 / 60), Enemy, BOSS: () => GAME.boss, TIMERS, AU, LIGHTS,
+  document.addEventListener('visibilitychange', () => { if (document.hidden && GAME.mode === 'play') openPause(UI.lastTab || 'inv'); try { if (AU.ctx) { if (document.hidden) AU.ctx.suspend(); else AU.ctx.resume(); MD.pause(document.hidden); } } catch (e) { } });
+  window.__UL = { GAME, get PLAYER() { return PLAYER; }, PROG: () => PROG, setProg: p => PROG = p, ENEMIES, ACTORS, ENTS, ROOM, ROOMS, TIME, CAM, G, IN, inPress, inRelease, ITEMS, STATS, UI, BOSSDEF, EDEF, loadRoom, step: dt => step(dt), render: () => render(1 / 60), Enemy, BOSS: () => GAME.boss, TIMERS, AU, MD, LIGHTS,
     sim: (sec, fn, dt = 1 / 30) => { for (let t = 0; t < sec; t += dt) { LIGHTS.length = 0; TIME.real += dt; TIME.dtReal = dt; G.t += dt; if (fn) fn(t); if (GAME.mode === 'play') { let d = dt; if (TIME.slowT > 0) { TIME.slowT -= dt; d *= TIME.slowScale; } if (TIME.hitstop > 0) { TIME.hitstop -= dt; d *= .04; } TIME.now += d; step(d); } else if (GAME.mode === 'dialog') dlgUpdate(dt); else if (GAME.mode === 'menu') menuNav(); UI.update(dt); } } };
 }

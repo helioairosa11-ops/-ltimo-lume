@@ -18,7 +18,9 @@ function audioUnlock() {
     applyVolumes();
     const len = c.sampleRate, b = c.createBuffer(1, len, c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1; AU.noise = b;
     AU.unlocked = true;
-    SFX_FILES.forEach(n => loadBuf('s/' + n));
+    const first = ['swing1', 'swing2', 'swing3', 'hit_sword', 'step1', 'step2', 'step3', 'step4', 'p_hurt1', 'p_hurt2', 'p_hurt3', 'whoosh1', 'whoosh2', 'whoosh3', 'flask', 'heal', 'chest', 'door', 'stone', 'crumble', 'z_hit1', 'z_hit2', 'moan', 'breath', 'l_cavewind', 'l_drops', 'l_campfire'];
+    const queue = [...new Set([...first.filter(n => SFX_FILES.includes(n)), ...SFX_FILES])]; let active = 0;
+    const pump = () => { while (active < 3 && queue.length) { active++; loadBuf('s/' + queue.shift()).then(() => { active--; setTimeout(pump, 30); }); } }; pump();
     MD.retry();
     const t = $('#tsnd'); if (t) t.hidden = true;
   } catch (e) { AU.ctx = null; }
@@ -91,19 +93,43 @@ function synth(n, v = 1) {
 }
 // ---------- música ----------
 const MD = { want: undefined, cur: null, vol: { title: .9, hub: .6, crypt: .6, walls: .55, swamp: .55, forest: .55, forge: .5, cathedral: .55, heart: .6, b_odile: .8, b_tobias: .8, b_brigid: .8, b_vesper: .8, b_orin: .8, b_selene: .8, b_hilde: .75, b_ozias: .8, b_aldric: .8, b_sera1: .85, b_sera2: .85, b_sera3: .9, end_lume: .85, end_cinza: .85, end_filha: .85 } };
+// Música em streaming (elementos <audio> ligados ao Web Audio): não descodifica faixas inteiras para a memória,
+// o que no iPhone causava engasgos e falta de memória. Se o streaming falhar, volta ao modo antigo (buffer).
+MD.pool = []; MD.mode = 'el';
+function mdInitPool() {
+  const c = AU.ctx; if (!c || MD.pool.length) return;
+  for (let i = 0; i < 2; i++) {
+    const el = new Audio(); el.preload = 'auto'; el.loop = true; el.setAttribute('playsinline', ''); let g = null;
+    try { const src = c.createMediaElementSource(el); g = c.createGain(); g.gain.value = .0001; src.connect(g); g.connect(AU.music); } catch (e) { g = null; }
+    const slot = { el, g, name: null, stopT: null }; MD.pool.push(slot);
+    el.addEventListener('error', () => { if (slot.name && MD.mode === 'el' && el.src && !el.src.startsWith('data:')) { MD.mode = 'buf'; const w = MD.want; MD.want = undefined; for (const s of MD.pool) { try { s.el.pause(); } catch (e) { } } MD.cur = null; if (w) music(w); } });
+    // desbloqueia o elemento dentro do toque (iOS só deixa tocar elementos que já tocaram com um gesto)
+    if (i > 0) { el.src = AU.base + 'm/title.mp3'; el.muted = true; const pr = el.play(); if (pr && pr.then) pr.then(() => { if (!slot.name) { el.pause(); el.currentTime = 0; } el.muted = false; }).catch(() => { el.muted = false; }); else { el.pause(); el.muted = false; } }
+  }
+}
+function mdGain(slot, v, d) { const c = AU.ctx, t = c.currentTime; if (slot.g) { slot.g.gain.cancelScheduledValues(t); slot.g.gain.setValueAtTime(Math.max(.0001, slot.g.gain.value), t); slot.g.gain.linearRampToValueAtTime(Math.max(.0001, v), t + Math.max(.05, d)); } else { slot.el.volume = clamp(v * SET.music, 0, 1); } }
 function music(name, fade = 1.8) {
   if (MD.want === name) return; MD.want = name; if (!AU.ctx) return;
-  if (!name) { mdFade(fade); return; }
-  loadBuf('m/' + name).then(b => { if (MD.want !== name) return; mdFade(fade * .8); if (b) mdStart(name, b, fade); });
+  if (MD.mode === 'buf') { if (!name) { mdFade(fade); return; } loadBuf('m/' + name).then(b => { if (MD.want !== name) return; mdFade(fade * .8); if (b) mdStart(name, b, fade); for (const k in AU.buf) if (k.startsWith('m/') && k !== 'm/' + name) delete AU.buf[k], delete AU.loading[k]; }); return; }
+  mdInitPool();
+  const old = MD.cur; if (old) { mdGain(old, 0, fade * .8); clearTimeout(old.stopT); old.fading = true; old.stopT = setTimeout(() => { old.fading = false; if (MD.cur !== old) try { old.el.pause(); } catch (e) { } }, fade * 800 + 150); }
+  MD.cur = null; if (!name) return;
+  const slot = MD.pool.find(s => s !== old && !s.fading) || MD.pool.find(s => s !== old) || MD.pool[0]; clearTimeout(slot.stopT); slot.fading = false; slot.name = name;
+  const url = AU.base + 'm/' + name + '.mp3'; if (!slot.el.src.endsWith('m/' + name + '.mp3')) slot.el.src = url; else slot.el.currentTime = 0;
+  if (slot.g) slot.g.gain.setValueAtTime(.0001, AU.ctx.currentTime); else slot.el.volume = 0;
+  const pr = slot.el.play(); if (pr && pr.catch) pr.catch(() => { });
+  mdGain(slot, MD.vol[name] || .6, fade); MD.cur = slot;
 }
 MD.retry = () => { const w = MD.want; MD.want = undefined; if (w) music(w); };
+MD.pause = (v) => { const s = MD.cur; if (!s || !s.el) return; try { v ? s.el.pause() : s.el.play().catch(() => { }); } catch (e) { } };
 function mdStart(name, b, fi) {
   const c = AU.ctx, t = c.currentTime, g = c.createGain(); g.gain.setValueAtTime(.0001, t); g.gain.linearRampToValueAtTime(MD.vol[name] || .6, t + fi); g.connect(AU.music);
   const s = c.createBufferSource(); s.buffer = b; s.connect(g); s.start(t); MD.cur = { name, b, s, g, t0: t };
 }
-function mdFade(d) { const c = AU.ctx; if (!c || !MD.cur) return; const { s, g } = MD.cur, t = c.currentTime; g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(.0001, g.gain.value), t); g.gain.linearRampToValueAtTime(.0001, t + d); try { s.stop(t + d + .1); } catch (e) { } MD.cur = null; }
-function musicTick() { const c = AU.ctx, m = MD.cur; if (!c || !m) return; if (c.currentTime > m.t0 + m.b.duration - 3.2) { mdFade(3); mdStart(m.name, m.b, 3); } }
-function musicPrefetch(names) { if (!AU.ctx) return; names.forEach(n => n && loadBuf('m/' + n)); }
+function mdFade(d) { const c = AU.ctx; if (!c || !MD.cur || !MD.cur.s) return; const { s, g } = MD.cur, t = c.currentTime; g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(.0001, g.gain.value), t); g.gain.linearRampToValueAtTime(.0001, t + d); try { s.stop(t + d + .1); } catch (e) { } MD.cur = null; }
+function musicTick() { const c = AU.ctx, m = MD.cur; if (!c || !m || !m.b) return; if (c.currentTime > m.t0 + m.b.duration - 3.2) { mdFade(3); mdStart(m.name, m.b, 3); } }
+// no modo streaming não é preciso pré-carregar (a faixa começa a tocar enquanto descarrega)
+function musicPrefetch(names) { }
 // ---------- ambiente (loops) ----------
 const AMB = {};
 function _trim(b) { const d = b.getChannelData(0); let i = 0, j = d.length - 1; while (i < d.length && Math.abs(d[i]) < 1e-4) i++; while (j > i && Math.abs(d[j]) < 1e-4) j--; return [i / b.sampleRate, (j + 1) / b.sampleRate]; }

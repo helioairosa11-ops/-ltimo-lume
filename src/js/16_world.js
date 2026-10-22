@@ -6,7 +6,7 @@ class Ent {
 }
 function entsClear() { ENTS.length = 0; PLATS.length = 0; ROOM.props = []; }
 function nearestInteract() {
-  const p = PLAYER; if (!p || !p.alive || !p.onGround || ['dash', 'hurt', 'hazard', 'skill', 'cast', 'busy', 'sit', 'frozen', 'drink'].includes(p.state)) return null;
+  const p = PLAYER; if (!p || !p.alive || !p.onGround || ['dash', 'hurt', 'hazard', 'skill', 'cast', 'busy', 'sit', 'frozen', 'drink', 'wake'].includes(p.state)) return null;
   let best = null, bd = 1e9;
   for (const e of ENTS) { const it = e.interact(); if (!it) continue; const d = Math.abs(e.x - p.x); if (d > (it.r || 34) || Math.abs((e.y ?? p.y) - p.y) > 50) continue; if (d < bd) { bd = d; best = it; } }
   return best;
@@ -100,6 +100,45 @@ class Msg extends Ent {
   interact() { return { label: 'Ler a mensagem', r: 26, act: () => UI.message(this.text) }; }
 }
 // ---------- portal para outra sala (portas, elevadores longos) ----------
+// topo do chão por baixo de (x, y)
+function groundBelow(x, y) { const tx = Math.floor(x / T); for (let ty = Math.max(0, Math.floor(y / T)); ty < (ROOM.cur ? ROOM.cur.h : 0); ty++) { const c = cellAt(tx, ty); if (SOLID[c] || c === 4) return ty * T; } return y; }
+// ---------- sarcófago onde o Desperto acorda (cena inicial) ----------
+const DUST = { color: [0x9a9488, 0x6a6458, 0xb8b0a0], glow: false, dir: -HPI, spread: 1.4, smin: 20, smax: 120, grav: 420, lmin: .4, lmax: 1, szmin: 1, szmax: 3, shape: 'r' };
+class WakeCoffin extends Ent {
+  constructor(o) { super(o); this.open = !!PROG.flags.woke; this.layer = this.open ? 'back' : 'front'; this.jit = 0; this.seam = 0; this.lidX = this.x + 96; this.lidY = groundBelow(this.lidX, this.y - 60); this.lid = this.open ? this.restLid() : null; }
+  restLid() { return { x: this.lidX, y: this.lidY, a: .06, rest: true }; }
+  knock(k) { this.jit = .4 + k * .3; shake(1 + k * 1.6); sfx('stone', at(this, .35 + k * .25, { rate: .62 })); sfx('hit_club', at(this, .3 + k * .25, { rate: .45 })); burst(this.x + rnd(-30, 30), this.y - 34, 6 + k * 8, DUST); this.seam = Math.min(1, this.seam + .3 + k * .15); vibrate(30 + k * 30); }
+  burstOpen() {
+    this.open = true; this.seam = 1.2; this.lid = { x: this.x, y: this.y - 26, a: 0, vx: (this.lidX - this.x) * 1.9, vy: -420, va: 3.4 };
+    shake(7); hitStop(.07); sfx('crumble', at(this, 1)); sfx('stone', at(this, .9, { rate: .5 })); synth('boom', .55); vibrate(80);
+    burst(this.x, this.y - 30, 44, Object.assign({}, DUST, { smin: 60, smax: 300, spread: 2.2 })); burst(this.x, this.y - 28, 22, { color: [0xffb060, 0xff8a40, 0xffe0a0], smin: 30, smax: 160, lmin: .4, lmax: 1 }); flashFx(this.x, this.y - 30, 110, 0xffb060, .5);
+  }
+  update(dt) {
+    this.jit = Math.max(0, this.jit - dt * 2.2); this.seam = Math.max(this.open ? 0 : .12 * (this.seam > 0), this.seam - dt * (this.open ? .8 : .12));
+    if (this.seam > 0) light(this.x, this.y - 30, 70 + this.seam * 70, 0xff8a40, Math.min(1, this.seam) * .95, .25);
+    const L = this.lid; if (!L || L.rest) return;
+    L.vy += 1500 * dt; L.x += L.vx * dt; L.y += L.vy * dt; L.a += L.va * dt;
+    if (Math.abs(L.x - this.lidX) < 8 || (L.x > this.lidX)) { L.x = Math.min(L.x, this.lidX); L.vx = 0; }
+    if (L.y >= this.lidY && L.vy > 0) { if (L.vy > 220) { L.y = this.lidY; L.vy *= -.22; L.va = (.06 - L.a) * 3; shake(3); sfx('stone', at(this, .7, { rate: .7 })); burst(L.x, this.lidY - 2, 16, DUST); } else { L.y = this.lidY; L.a = .06; L.rest = true; } }
+  }
+  drawLid(c, x, y, a) {
+    c.save(); c.translate(x, y); c.rotate(a);
+    c.fillStyle = '#34303b'; c.fillRect(-39, -10, 78, 10); c.fillStyle = '#4c4756'; c.fillRect(-39, -10, 78, 3);
+    c.fillStyle = '#29262f'; c.beginPath(); c.ellipse(-22, -5, 7, 3.2, 0, 0, TAU); c.fill(); c.fillRect(-15, -6.5, 40, 3); c.fillRect(-3, -9, 2, 8);
+    c.restore();
+  }
+  draw(c) {
+    const x = this.x + (this.jit > 0 ? (Math.random() - .5) * this.jit * 5 : 0), y = this.y;
+    // base de pedra (a frente tapa o Desperto enquanto se levanta)
+    c.fillStyle = '#2b2830'; c.fillRect(x - 35, y - 26, 70, 26); c.fillStyle = '#3d3946'; c.fillRect(x - 37, y - 28, 74, 4); c.fillRect(x - 37, y - 5, 74, 5);
+    c.fillStyle = '#211e26'; for (const k of [-1, 1]) c.fillRect(x + k * 22 - 1, y - 23, 2, 17); c.beginPath(); c.ellipse(x, y - 15, 8, 6, 0, 0, TAU); c.fill();
+    c.fillStyle = '#4a4552'; c.beginPath(); c.ellipse(x, y - 16, 4, 4.5, 0, 0, TAU); c.fill(); c.fillStyle = '#211e26'; c.fillRect(x - 2.5, y - 17, 1.6, 2.2); c.fillRect(x + 1, y - 17, 1.6, 2.2);
+    if (this.open) { c.fillStyle = '#08070a'; c.fillRect(x - 33, y - 28, 66, 3); }
+    if (!this.lid) { const lx = x + (this.jit > 0 ? (Math.random() - .5) * this.jit * 3 : 0), ly = y - 28 - (this.jit > .3 ? Math.random() * this.jit * 3 : 0); this.drawLid(c, lx, ly, 0);
+      if (this.seam > 0) { c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = Math.min(1, this.seam); c.fillStyle = '#ff9a4a'; c.fillRect(x - 35, y - 28.5, 70, 1.5); c.drawImage(glowSpr(0xff8a40), x - 40, y - 40, 80, 24); c.restore(); } }
+    else this.drawLid(c, this.lid.x, this.lid.y, this.lid.a);
+  }
+}
 class Portal extends Ent {
   draw(c) { if (this.invisible || (this.cond && !this.cond() && !this.lockedLabel)) return; const x = this.x, y = this.y; c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = .25 + Math.sin(G.t * 2) * .08; c.drawImage(glowSpr(this.color || 0xffe0b0), x - 30, y - 80, 60, 80); c.restore(); }
   interact() { if (this.cond && !this.cond()) return this.lockedLabel ? { label: this.lockedLabel, r: 34, act: () => UI.toast(this.lockedMsg || 'O caminho está fechado.') } : null; return { label: this.label || 'Entrar', r: 34, act: () => { if (this.setFlag) PROG.flags[this.setFlag] = 1; GAME.travel(this.to, this.spawn); } }; }

@@ -291,7 +291,7 @@ function settingsMenu() {
   const qn = { baixa: 'baixa', media: 'média', alta: 'alta' };
   const vol = v => Math.round(v * 100) + '%'; const step = v => v >= .99 ? 0 : Math.round((v + .25) * 4) / 4;
   return { build: () => ({ title: 'Definições', items: [
-    { label: 'Qualidade gráfica', right: qn[SET.quality], desc: 'Baixa é mais leve para telemóveis mais antigos.', fn: () => { SET.quality = SET.quality === 'baixa' ? 'media' : SET.quality === 'media' ? 'alta' : 'baixa'; saveSettings(); resizeGfx(); ROOM.chunks.clear(); if (BG.kind) bgMake(BG.kind); UI.rerender(); } },
+    { label: 'Qualidade gráfica', right: qn[SET.quality], desc: 'Baixa é mais leve para telemóveis mais antigos.', fn: () => { SET.quality = SET.quality === 'baixa' ? 'media' : SET.quality === 'media' ? 'alta' : 'baixa'; SET.qLocked = true; saveSettings(); resizeGfx(); ROOM.chunks.clear(); if (BG.kind) bgMake(BG.kind); UI.rerender(); } },
     { label: 'Música', right: vol(SET.music), fn: () => { SET.music = step(SET.music); saveSettings(); applyVolumes(); UI.rerender(); } },
     { label: 'Efeitos sonoros', right: vol(SET.sfx), fn: () => { SET.sfx = step(SET.sfx); saveSettings(); applyVolumes(); UI.rerender(); } },
     { label: 'Vozes das personagens', right: SET.voices ? 'sim' : 'não', desc: 'Balbucio em língua inventada, como em Hollow Knight.', fn: () => { SET.voices = !SET.voices; saveSettings(); applyVolumes(); if (SET.voices) voxSay('ione', 4); UI.rerender(); } },

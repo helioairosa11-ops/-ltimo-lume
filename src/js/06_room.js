@@ -96,7 +96,7 @@ function chunkCanvas(cx, cy) {
   const key = cx + ',' + cy; let c = ROOM.chunks.get(key); if (c && c._s === G.s) return c;
   const CH = ROOM.CH, px = Math.ceil(CH * T * G.s); c = c && c.width === px ? c : document.createElement('canvas'); c.width = c.height = px; c._s = G.s;
   const x = c.getContext('2d'); x.setTransform(G.s, 0, 0, G.s, 0, 0); x.clearRect(0, 0, CH * T, CH * T); x.translate(-cx * CH * T, -cy * CH * T);
-  bakeArea(x, cx * CH, cy * CH, CH, CH);
+  bakeArea(x, cx * CH, cy * CH, CH, CH); G.baked = (G.baked || 0) + 1;
   ROOM.chunks.set(key, c); if (ROOM.chunks.size > 70) { const k0 = ROOM.chunks.keys().next().value; ROOM.chunks.delete(k0); }
   return c;
 }

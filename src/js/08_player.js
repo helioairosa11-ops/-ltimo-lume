@@ -47,6 +47,7 @@ class Player extends Actor {
       case 'busy': this.vx = 0; if (this.st > (this.busyT || .5)) this.setState('idle'); this.physics(dt); break;
       case 'sit': this.vx = 0; this.physics(dt); break;
       case 'frozen': this.vx = 0; this.physics(dt); break;
+      case 'wake': this.vx = 0; this.vy = 0; break;
       default: this.updNormal(dt, ax, ay);
     }
     // perigos
