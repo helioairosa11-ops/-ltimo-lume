@@ -1,6 +1,6 @@
 // Guarda o jogo no aparelho para funcionar offline depois da primeira visita.
-// O HTML vem sempre da rede quando há ligação (para receber atualizações); bibliotecas e áudio ficam em cache.
-const CACHE = 'ultimo-lume-3d-v1';
+// O HTML vem sempre da rede quando há ligação (para receber atualizações); o áudio fica em cache.
+const CACHE = 'ultimo-lume-2d-v1';
 const CORE = [
   "./",
   "./index.html",
@@ -9,19 +9,7 @@ const CORE = [
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png",
-  "./audio/m/title.mp3",
-  "./lib/addons/postprocessing/EffectComposer.js",
-  "./lib/addons/postprocessing/MaskPass.js",
-  "./lib/addons/postprocessing/OutputPass.js",
-  "./lib/addons/postprocessing/Pass.js",
-  "./lib/addons/postprocessing/RenderPass.js",
-  "./lib/addons/postprocessing/ShaderPass.js",
-  "./lib/addons/postprocessing/UnrealBloomPass.js",
-  "./lib/addons/shaders/CopyShader.js",
-  "./lib/addons/shaders/LuminosityHighPassShader.js",
-  "./lib/addons/shaders/OutputShader.js",
-  "./lib/addons/utils/BufferGeometryUtils.js",
-  "./lib/three.module.min.js"
+  "./audio/m/title.mp3"
 ];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });

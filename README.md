@@ -1,68 +1,69 @@
 # Último Lume
 
-Um souls-like em 3D que corre no navegador, no telemóvel ou no computador, e que se pode instalar como app. São oito áreas, sete chefes e três finais, para cerca de duas horas de jogo (depende de quantas vezes morreres).
+Um metroidvania sombrio, visto de lado como Hollow Knight, com alma de souls-like (Dark Souls, Elden Ring). Corre no navegador, no telemóvel ou no computador, e pode instalar-se como app. São oito áreas, dez chefes (seis grandes e três subchefes, mais a rainha final) e três finais, para duas a três horas de jogo (depende de quantas vezes morreres).
 
-> *No princípio havia o Lume. E enquanto ele ardia, os mortos dormiam.*
+> *No princípio havia o Lume, a Chama Primeira. E enquanto ele ardia, os mortos dormiam.*
 
 **Jogar:** https://helioairosa11-ops.github.io/-ltimo-lume/ (funciona depois de ligares o GitHub Pages, ver abaixo)
 
 ## A história
 
-A rainha Seraphine guardava dentro de si o Lume, a chama que mantinha os mortos a dormir. Cada dia tinha mais luz e menos carne. O rei Aldric não aguentou vê-la arder e mandou forjar um cálice para lhe arrancar a chama. O Lume partiu-se em seis brasas, que caíram sobre as pessoas mais próximas da rainha. O reino de Vesperal cobriu-se de cinza e os mortos acordaram.
+O Lume escolhia um receptáculo em cada geração. Na última escolheu a rainha Seraphine de Vesperal, e a chama começou a queimá-la por dentro: cada dia mais luz, cada dia menos carne. O rei Aldric não suportou vê-la arder. O bispo Ozias falou-lhe de um cálice capaz de guardar o Lume sem ninguém ter de morrer, e a mestra-ferreira Hilde forjou-o. Numa noite sem lua, tentaram arrancar a chama à rainha.
 
-Tu és um deles. Na última fogueira acesa, Ione, a filha cega da rainha, pede-te que recolhas as seis brasas.
+O Lume não aceita dono. Partiu-se em seis brasas, que fugiram para as pessoas que a rainha amava e lhes roubaram o descanso. Vesperal cobriu-se de cinza e os mortos acordaram.
 
-A história conta-se aos bocados, como nos jogos da FromSoftware: nas descrições dos itens, no que os chefes dizem antes e durante a luta, nas mensagens no chão e nas conversas com Ione, Hrolf e Maren. Há três cartas da rainha escondidas pelo mundo. Quem as encontrar todas e as mostrar a Ione abre o terceiro final.
+Tu és um deles. No Santuário da Última Chama, Ione, a filha cega da rainha, pede-te que recolhas as seis brasas.
 
-## Áreas, chefes e habilidades
+A história conta-se aos bocados: em mais de trinta inscrições espalhadas pelo mundo, nas descrições de todos os itens, no que os chefes dizem antes, durante e depois da luta, nas conversas com Ione, Hrolf, Maren e Teodoro, e no Diário do menu (crónicas, chefes e bestiário). Há três cartas da rainha escondidas, uma delas atrás de uma parede falsa. Quem as encontrar todas e falar com Ione abre o terceiro final.
 
-Cada área tem inimigos novos, uma música própria e uma habilidade nova para encontrar.
+## Áreas e chefes
 
-| Área | Inimigos | Chefe | Habilidade que se encontra |
+| Área | Inimigos | Chefe | O que se encontra |
 |---|---|---|---|
-| Cripta dos Esquecidos | Ocos, rastejantes | **Irmã Odile, a Carpideira** (incensário em corrente, espíritos) | — |
-| Santuário da Última Chama | zona segura: Ione e o ferreiro Hrolf | — | — |
-| Muralhas de Vesperal | soldados com escudo, besteiros, cães, o Carrasco (mini-chefe) | **Brigid, a Lança Juramentada** (lança e escudo, raios na 2.ª fase) | Arco Longo (flechas) |
-| Pântano das Velas | afogados escondidos na água, bruxas, inchados que explodem | **Vesper, Tecelã de Cinzas** (feiticeira que flutua e teletransporta) | Livro das Velas (bola de fogo) |
-| Bosque de Cinza | matilhas de lobos, caçadores com arco, ents | **Selene, a Caçadora da Lua Morta** (arco e adagas; a loba Garra entra na 2.ª fase) | Giro do Lobo (golpe giratório) |
-| Forja Profunda | ferreiros com martelo, salamandras, golems que explodem, chamas errantes | **Hilde, a Mãe da Forja** (gigante com martelo, lava) | Salto da Bigorna (golpe saltado) |
-| Catedral Apagada | cavaleiros, clérigos que curam, gárgulas que fingem ser estátuas | **Aldric, o Rei Apagado** (o único chefe homem; fogo negro e passo de sombra) | Passo Sombrio (teletransporte para as costas) |
-| Coração do Lume | ecos do Desperto, vigias de lança em chamas | **Seraphine, a Rainha do Lume** (três fases, cada uma com barra própria; na última usa os golpes de todos os outros chefes) | Lança de Luz (magia que atravessa tudo) |
+| Cripta dos Esquecidos | ocos, rastejantes, velas errantes | **Irmã Odile, a Carpideira** | chave da cripta, primeira carta |
+| Santuário da Última Chama | zona segura: Ione e o ferreiro Hrolf | — | fogueira central, ferreiro |
+| Muralhas de Vesperal | soldados com escudo, besteiros, cães, corvos | **Tobias, o Carrasco** (subchefe) e **Brigid, a Lança Juramentada** | Arco Longo, Machado do Carrasco, segundo salto |
+| Pântano das Velas | afogados escondidos na água, bruxas, inchados, mosquitos | **Vesper, Tecelã de Cinzas** | Fogo das Velas, Capela Afogada |
+| Bosque de Cinza | lobos, caçadores, ents, mariposas | **Orin, Mestre dos Caçadores** (subchefe) e **Selene, a Caçadora da Lua Morta** (com a loba Garra) | Giro do Lobo, adagas |
+| Forja Profunda | ferreiros, salamandras, golems, chamas | **Hilde, a Mãe da Forja** | Salto da Bigorna (parte o chão frágil) |
+| Catedral Apagada | cavaleiros, clérigos, gárgulas | **Bispo Ozias** (subchefe) e **Aldric, o Rei Apagado** | Passo Sombrio (atravessa véus negros), espada grande |
+| Coração do Lume | ecos, vigias | **Seraphine, a Rainha do Lume** (três fases, cada uma com barra e música próprias) | Lança de Luz |
 
-**Cada chefe tem a sua banda sonora**, e Seraphine tem uma faixa diferente para cada uma das três fases.
+Há chefes homens e mulheres, intercalados ao longo do caminho. Todos têm duas fases (a rainha tem três), banda sonora própria e golpes com aviso visual antes de baterem, como em Hollow Knight.
 
-Também há quatro armas (espada, machado, adagas e espada grande), oito talismãs, Lágrimas de Lume que dão mais frascos, Fragmentos de Brasa para o Hrolf reforçar a arma, atalhos, paredes ilusórias e portas que só abrem por um lado.
+## Combate
+
+- **Combos:** ataques seguidos fazem uma série; o último golpe é mais forte. No ar há outra série.
+- **Golpe para cima e para baixo:** segura cima ou baixo ao atacar. O golpe para baixo ressalta em inimigos e espinhos (pogo) e devolve o dash e o salto duplo.
+- **Dash e esquiva:** o dash torna-te intocável por um instante. Esquivar mesmo em cima de um golpe abranda o tempo e dá Fôlego.
+- **Golpe forte e carregado:** segura o botão do martelo para carregar o Grande Corte.
+- **Fôlego:** cada golpe acertado enche a esfera no canto. Gasta-se nas habilidades (arco, fogo, giro, salto, passo, luz).
+- **Postura:** os chefes têm uma barra dourada. Quando enche, o chefe cai e o golpe seguinte é crítico. Pelas costas também é crítico.
+- **Cinzas:** são a tua experiência e o teu dinheiro. Quando morres ficam onde caíste; volta lá para as recuperar.
+- **Fogueiras:** curam, enchem os frascos, deixam subir de nível e viajar. Os inimigos voltam quando descansas.
+
+## Inventário
+
+No menu de pausa (ou no botão da mochila) há separadores: **Inventário** (brasas, objetos que se podem usar, chaves, cartas), **Equipamento** (quatro armas e dez talismãs, três ranhuras), **Habilidades**, **Mapa**, **Diário**, **Estado** e **Sistema**. O ferreiro Hrolf reforça a arma com Fragmentos de Brasa (até +8).
 
 ## Como jogar
 
-| Ação | Toque (telemóvel) | Teclado e rato | Comando |
+| Ação | Toque (telemóvel deitado) | Teclado | Comando |
 |---|---|---|---|
-| Andar | arrastar no lado esquerdo do ecrã | WASD | analógico esquerdo |
-| Olhar | arrastar no lado direito do ecrã | rato | analógico direito |
-| Ataque | botão da espada | clique esquerdo / J | RB |
-| Ataque forte (segura para carregar) | botão do martelo | clique direito / K | RT |
-| Rolar (segura para correr) | botão da seta circular | Espaço | B / ○ |
-| Saltar (ataque no ar faz golpe saltado) | botão da seta para cima | F | A / ✕ |
-| Travar a mira | botão do alvo; desliza para trocar de alvo | Q | R3 |
-| Habilidade | botão da estrela | C | LB |
-| Trocar de habilidade | botão › | Tab / roda do rato | LT |
-| Frasco de Lume | botão do frasco | R | X / □ |
-| Interagir | botão que aparece no meio do ecrã | E | Y / △ |
-| Pausa | botão no canto | Esc | Start |
+| Andar | arrastar no lado esquerdo do ecrã | A / D ou setas | analógico esquerdo |
+| Cima / baixo (golpes verticais) | empurrar o analógico para cima / baixo | W / S | analógico ou cruz |
+| Atacar | botão da espada | J, X ou clique | X / □ |
+| Saltar (segura para saltar mais alto) | seta para cima | Espaço ou Z | A / ✕ |
+| Dash / esquiva | seta com barra | K, C, Shift ou clique direito | B / ○ ou RB |
+| Golpe forte (segura para carregar) | botão do martelo | L ou V | RT |
+| Habilidade | botão da chama (toca no nome para trocar) | F (Q ou Tab troca) | Y / △ (LB troca) |
+| Frasco de Lume | botão do frasco | R | LT |
+| Interagir | toca no aviso que aparece | E | Y / △ |
+| Inventário / pausa | botões no canto | I / Esc | Select / Start |
 
-Dicas:
+A música começa no primeiro toque, porque os navegadores não deixam tocar som antes disso. As personagens falam com murmúrios inventados, ao estilo de Hollow Knight; o texto aparece no ecrã.
 
-- Rola através do golpe, não para longe dele. Os golpes fortes dos chefes mostram um aviso no chão antes de caírem.
-- Os chefes têm uma barra dourada de postura. Quando enche, o chefe ajoelha-se e o golpe seguinte é crítico.
-- Golpes pelas costas fazem dano crítico. Os soldados com escudo bloqueiam de frente.
-- Quando morres, as tuas cinzas ficam onde caíste. Volta para as buscar antes de morrer outra vez.
-- Descansar numa fogueira cura-te e enche os frascos, mas os mortos voltam. Na fogueira gastas cinzas para subir de nível e podes viajar entre fogueiras acesas.
-- Um chefe que te vê a beber um frasco ataca sem piedade.
-- O jogo grava sozinho, no próprio navegador.
-
-A música começa no primeiro toque ou clique, porque os navegadores não deixam tocar som antes disso. As falas das personagens são lidas pela voz do teu aparelho (pode desligar-se em Definições).
-
-Se o jogo estiver lento, em **Definições → Qualidade gráfica** escolhe **baixa** e recarrega a página. No telemóvel o jogo começa em **média**.
+Se o jogo estiver lento, em **Definições → Qualidade gráfica** escolhe **baixa**.
 
 ## Pôr o jogo no ar com o GitHub Pages
 
@@ -73,7 +74,7 @@ Só precisas de fazer isto uma vez. No telemóvel usa o **navegador** (Safari ou
 3. Logo abaixo, em **Branch**, toca no botão que diz **None**, escolhe **main**, deixa a pasta **/ (root)** e toca em **Save**.
 4. Espera um a três minutos e recarrega a página. Quando aparecer no topo **"Your site is live at https://helioairosa11-ops.github.io/-ltimo-lume/"**, toca em **Visit site**. Esse é o link do jogo.
 
-Se o link mostrar "404", espera mais um bocado e recarrega. A primeira publicação às vezes demora.
+Se o link mostrar "404", espera mais um bocado e recarrega. A primeira publicação às vezes demora. Se já tinhas o jogo aberto antes desta versão, recarrega a página uma vez para receberes a atualização.
 
 ## Instalar como app
 
@@ -93,10 +94,10 @@ python3 -m http.server 8000
 
 e depois abre http://localhost:8000.
 
-O código-fonte está em `src/` (cada ficheiro `src/js/*.js` é um módulo: motor, personagens, chefes, áreas, interface). `python3 build.py` junta tudo em `dist/index.html`; copia esse ficheiro para `index.html` na raiz para publicar.
+O código-fonte está em `src/`: `src/head.html` tem o estilo e a interface, e cada ficheiro `src/js/*.js` é uma parte do jogo (motor, luz, jogador, inimigos, chefes, história, salas, interface). `python3 build.py` junta tudo no `index.html` da raiz.
 
 ## Créditos
 
-Feito com [three.js](https://threejs.org) (MIT). Personagens, cenários e texturas são gerados por código. Músicas e sons vêm dos jogos livres **Battle for Wesnoth** e **Flare**; autores e licenças de cada ficheiro estão em [CREDITS.md](CREDITS.md) e no ecrã de Créditos do jogo.
+Personagens, cenários, luz e efeitos são desenhados por código (Canvas 2D). As vozes são sintetizadas pelo próprio jogo. Músicas e sons vêm dos jogos livres **Battle for Wesnoth** e **Flare**; autores e licenças de cada ficheiro estão em [CREDITS.md](CREDITS.md) e no ecrã de Créditos do jogo.
 
 O código do jogo está sob licença MIT (ver `LICENSE`). Os ficheiros de áudio mantêm as suas licenças originais (GPL v2+, CC BY-SA 4.0, CC BY-SA 3.0 ou CC BY 3.0, conforme o ficheiro).

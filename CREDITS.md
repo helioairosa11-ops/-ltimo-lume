@@ -1,13 +1,13 @@
 # Créditos
 
-**Último Lume** foi feito com [three.js](https://threejs.org) (MIT). Toda a geometria e texturas são geradas por código.
+**Último Lume** é desenhado inteiramente por código (Canvas 2D): personagens, cenários, luz e efeitos.
 
 As músicas e efeitos sonoros vêm de dois projetos livres. Os ficheiros foram cortados, normalizados e convertidos para MP3; mantêm as licenças originais.
 
 - **Battle for Wesnoth** — https://www.wesnoth.org — música e sons sob GNU GPL v2+ ou CC BY-SA 4.0 (por ficheiro, abaixo). Lista oficial: `copyrights.csv` do projeto.
 - **Flare** — https://flarerpg.org — conteúdo do mod *fantasycore* sob CC BY-SA 3.0 (alguns ficheiros CC BY 3.0 / CC0; ver `CREDITS.txt` do Flare).
 
-As vozes das personagens nas falas usam a síntese de voz do próprio aparelho (Web Speech API).
+As vozes das personagens (murmúrios ao estilo de Hollow Knight) são sintetizadas pelo próprio jogo, em tempo real; não há gravações de voz.
 
 ## Música
 
@@ -23,15 +23,17 @@ As vozes das personagens nas falas usam a síntese de voz do próprio aparelho (
 | `cathedral` | Battle for Wesnoth — `data/core/music/the_king_is_dead.ogg` | Mattias Westlund(West) | GNU GPL v2+ |
 | `heart` | Battle for Wesnoth — `data/core/music/into_the_shadows.ogg` | Tyler Johnson | GNU GPL v2+ |
 | `b_odile` | Battle for Wesnoth — `data/core/music/undead_siege.ogg` | Tomek Szczęsny(mctom) | CC BY-SA 4.0 |
+| `b_tobias` | Battle for Wesnoth — `data/core/music/battle.ogg` | Aleksi Aubry-Carlson(Aleksi) | GNU GPL v2+ |
 | `b_brigid` | Battle for Wesnoth — `data/core/music/legends_of_the_north.ogg` | Mattias Westlund(West) | GNU GPL v2+ |
 | `b_vesper` | Flare (fantasycore) — `mods/fantasycore/music/unrest_theme.ogg` | Brandon Morris (Augmentality) — “Osare Song 1” | CC BY-SA 3.0 |
 | `b_selene` | Battle for Wesnoth — `data/core/music/northerners.ogg` | Stephen Rozanc(TreizeCouleurs) | GNU GPL v2+ |
+| `b_orin` | Battle for Wesnoth — `data/core/music/heroes_rite.ogg` | Doug Kaufman(dkaufman) | GNU GPL v2+ |
 | `b_hilde` | Battle for Wesnoth — `data/core/music/knalgan_theme.ogg` | Ryan Reilly(Rain) | GNU GPL v2+ |
+| `b_ozias` | Battle for Wesnoth — `data/core/music/weight_of_revenge.ogg` | Doug Kaufman(dkaufman) | GNU GPL v2+ |
 | `b_aldric` | Battle for Wesnoth — `data/core/music/vengeful.ogg` | Jeremy Nicoll(jeremy2/eltiare) | GNU GPL v2+ |
 | `b_sera1` | Battle for Wesnoth — `data/core/music/the_dangerous_symphony.ogg` | Gianmarco Leone(gmlion) | GNU GPL v2+ |
 | `b_sera2` | Battle for Wesnoth — `data/core/music/siege_of_laurelmor.ogg` | Doug Kaufman(dkaufman) | GNU GPL v2+ |
 | `b_sera3` | Battle for Wesnoth — `data/core/music/frantic.ogg` | Stephen Rozanc(TreizeCouleurs) | GNU GPL v2+ |
-| `miniboss` | Flare (fantasycore) — `mods/fantasycore/music/boss_theme.ogg` | remaxim — “Boss Theme” | CC BY-SA 3.0 |
 | `end_lume` | Battle for Wesnoth — `data/core/music/journeys_end.ogg` | Mattias Westlund(West) | GNU GPL v2+ |
 | `end_cinza` | Battle for Wesnoth — `data/core/music/transience.ogg` | Aleksi Aubry-Carlson(Aleksi) | GNU GPL v2+ |
 | `end_filha` | Battle for Wesnoth — `data/core/music/return_to_wesnoth.ogg` | Mattias Westlund(West) | CC BY-SA 4.0 |
