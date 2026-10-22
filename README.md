@@ -1,97 +1,102 @@
 # Último Lume
 
-Um souls-like curto, feito para ser zerado em uns dez minutos. Roda direto no navegador, no celular ou no PC, e pode ser instalado como app.
+Um souls-like em 3D que corre no navegador, no telemóvel ou no computador, e que se pode instalar como app. São oito áreas, sete chefes e três finais, para cerca de duas horas de jogo (depende de quantas vezes morreres).
 
 > *No princípio havia o Lume. E enquanto ele ardia, os mortos dormiam.*
 
-**Jogar:** https://helioairosa11-ops.github.io/-ltimo-lume/ (funciona depois de ativar o GitHub Pages, veja abaixo)
+**Jogar:** https://helioairosa11-ops.github.io/-ltimo-lume/ (funciona depois de ligares o GitHub Pages, ver abaixo)
 
 ## A história
 
-O reino de Vesperal era protegido pelo Lume, uma chama que mantinha os mortos dormindo. Três guardiões juraram protegê-la. Mas o rei temeu o dia em que ela se apagaria e tentou guardá-la só para si. O Lume se partiu em três brasas, a cinza cobriu o reino e os mortos despertaram.
+A rainha Seraphine guardava dentro de si o Lume, a chama que mantinha os mortos a dormir. Cada dia tinha mais luz e menos carne. O rei Aldric não aguentou vê-la arder e mandou forjar um cálice para lhe arrancar a chama. O Lume partiu-se em seis brasas, que caíram sobre as pessoas mais próximas da rainha. O reino de Vesperal cobriu-se de cinza e os mortos acordaram.
 
-Você é um deles, o **Cinzento**. Junto à primeira fogueira, Ione, a Guardiã do Fogo, pede que você recupere as três brasas.
+Tu és um deles. Na última fogueira acesa, Ione, a filha cega da rainha, pede-te que recolhas as seis brasas.
 
-## Os chefes
+A história conta-se aos bocados, como nos jogos da FromSoftware: nas descrições dos itens, no que os chefes dizem antes e durante a luta, nas mensagens no chão e nas conversas com Ione, Hrolf e Maren. Há três cartas da rainha escondidas pelo mundo. Quem as encontrar todas e as mostrar a Ione abre o terceiro final.
 
-| Chefe | Onde | Estilo |
-|---|---|---|
-| **Bramir, o Juramento Partido** | Portão, além do Pátio do Juramento | Cavaleiro gigante de alabarda: varridas, golpe no chão com onda de choque e investida. Na segunda fase, varre duas vezes. |
-| **Vesper, Tecelã de Cinzas** | Bosque além do Pântano das Velas | Feiticeira que flutua e mantém distância: leque e anel de orbes, espíritos que perseguem, teleporte. Na segunda fase, espiral de orbes. |
-| **Aldric, o Rei Apagado** | Trono da Catedral Apagada | Rei com espada grande: combos de três golpes, estocada e trilha de fogo. Na segunda fase, chamas negras, chuva de brasas e giro. |
+## Áreas, chefes e habilidades
 
-O jogo tem **dois finais**, escolhidos no altar depois do último chefe.
+Cada área tem inimigos novos, uma música própria e uma habilidade nova para encontrar.
+
+| Área | Inimigos | Chefe | Habilidade que se encontra |
+|---|---|---|---|
+| Cripta dos Esquecidos | Ocos, rastejantes | **Irmã Odile, a Carpideira** (incensário em corrente, espíritos) | — |
+| Santuário da Última Chama | zona segura: Ione e o ferreiro Hrolf | — | — |
+| Muralhas de Vesperal | soldados com escudo, besteiros, cães, o Carrasco (mini-chefe) | **Brigid, a Lança Juramentada** (lança e escudo, raios na 2.ª fase) | Arco Longo (flechas) |
+| Pântano das Velas | afogados escondidos na água, bruxas, inchados que explodem | **Vesper, Tecelã de Cinzas** (feiticeira que flutua e teletransporta) | Livro das Velas (bola de fogo) |
+| Bosque de Cinza | matilhas de lobos, caçadores com arco, ents | **Selene, a Caçadora da Lua Morta** (arco e adagas; a loba Garra entra na 2.ª fase) | Giro do Lobo (golpe giratório) |
+| Forja Profunda | ferreiros com martelo, salamandras, golems que explodem, chamas errantes | **Hilde, a Mãe da Forja** (gigante com martelo, lava) | Salto da Bigorna (golpe saltado) |
+| Catedral Apagada | cavaleiros, clérigos que curam, gárgulas que fingem ser estátuas | **Aldric, o Rei Apagado** (o único chefe homem; fogo negro e passo de sombra) | Passo Sombrio (teletransporte para as costas) |
+| Coração do Lume | ecos do Desperto, vigias de lança em chamas | **Seraphine, a Rainha do Lume** (três fases, cada uma com barra própria; na última usa os golpes de todos os outros chefes) | Lança de Luz (magia que atravessa tudo) |
+
+**Cada chefe tem a sua banda sonora**, e Seraphine tem uma faixa diferente para cada uma das três fases.
+
+Também há quatro armas (espada, machado, adagas e espada grande), oito talismãs, Lágrimas de Lume que dão mais frascos, Fragmentos de Brasa para o Hrolf reforçar a arma, atalhos, paredes ilusórias e portas que só abrem por um lado.
 
 ## Como jogar
 
-| Ação | Teclado | Toque | Controle |
+| Ação | Toque (telemóvel) | Teclado e rato | Comando |
 |---|---|---|---|
-| Andar | WASD ou setas | Arrastar no lado esquerdo | Analógico esquerdo |
-| Atacar (até 3 golpes seguidos) | J ou clique | Botão da espada | RB |
-| Rolar (invulnerável por um instante) | Espaço | Botão da seta | B / ○ |
-| Correr | Segurar Espaço | Segurar o botão da seta | Segurar B / ○ |
-| Beber frasco | Q | Botão do frasco | X / □ |
-| Interagir | E | Botão no centro da tela | A / ✕ |
-| Travar mira | Tab | Botão do alvo | LB ou R3 |
-| Pausa | Esc | Botão no canto | Start |
+| Andar | arrastar no lado esquerdo do ecrã | WASD | analógico esquerdo |
+| Olhar | arrastar no lado direito do ecrã | rato | analógico direito |
+| Ataque | botão da espada | clique esquerdo / J | RB |
+| Ataque forte (segura para carregar) | botão do martelo | clique direito / K | RT |
+| Rolar (segura para correr) | botão da seta circular | Espaço | B / ○ |
+| Saltar (ataque no ar faz golpe saltado) | botão da seta para cima | F | A / ✕ |
+| Travar a mira | botão do alvo; desliza para trocar de alvo | Q | R3 |
+| Habilidade | botão da estrela | C | LB |
+| Trocar de habilidade | botão › | Tab / roda do rato | LT |
+| Frasco de Lume | botão do frasco | R | X / □ |
+| Interagir | botão que aparece no meio do ecrã | E | Y / △ |
+| Pausa | botão no canto | Esc | Start |
 
 Dicas:
-- Ataque depois que o inimigo golpear. O chão fica vermelho antes dos golpes fortes.
-- Cada chefe tem uma barra dourada de postura embaixo da vida. Ela enche com golpes seguidos; quando enche, o chefe cambaleia e o próximo golpe é crítico.
-- Ao morrer, suas cinzas ficam onde você caiu. Volte para buscá-las antes de morrer de novo.
-- Descansar na fogueira cura, recarrega os frascos e traz os inimigos de volta. Lá você também gasta cinzas para subir Vigor (vida), Força (dano) e Fôlego (energia).
-- O progresso é salvo no próprio navegador a cada fogueira.
 
-## Música, vozes e ambientação
+- Rola através do golpe, não para longe dele. Os golpes fortes dos chefes mostram um aviso no chão antes de caírem.
+- Os chefes têm uma barra dourada de postura. Quando enche, o chefe ajoelha-se e o golpe seguinte é crítico.
+- Golpes pelas costas fazem dano crítico. Os soldados com escudo bloqueiam de frente.
+- Quando morres, as tuas cinzas ficam onde caíste. Volta para as buscar antes de morrer outra vez.
+- Descansar numa fogueira cura-te e enche os frascos, mas os mortos voltam. Na fogueira gastas cinzas para subir de nível e podes viajar entre fogueiras acesas.
+- Um chefe que te vê a beber um frasco ataca sem piedade.
+- O jogo grava sozinho, no próprio navegador.
 
-- **Menu:** tema orquestral *Flare Main*, de Brandon Morris.
-- **Cada área tem som próprio:** gotas e vento de caverna na cripta, vento e corvos no pátio (com raios e trovões), coruja, água e névoa no pântano, eco de passos na catedral.
-- **Fogueiras:** a música muda para um tema calmo quando você se aproxima, com o crepitar do fogo.
-- **Cada chefe tem sua trilha**, que fica mais intensa na segunda fase.
-- **Vozes:** gemidos dos Ocos, rosnados dos cães, rugidos de Bramir, a respiração fantasma e os gritos de Vesper, os grunhidos de Aldric e a dor e a morte do herói. As falas de Ione aparecem em texto.
-- Com pouca vida, você ouve o próprio coração.
+A música começa no primeiro toque ou clique, porque os navegadores não deixam tocar som antes disso. As falas das personagens são lidas pela voz do teu aparelho (pode desligar-se em Definições).
 
-A música começa no primeiro toque ou clique, porque os navegadores não deixam tocar som antes disso. Todos os áudios têm licença livre; autores e licenças estão em [CREDITS.md](CREDITS.md) e na tela de Créditos do jogo.
+Se o jogo estiver lento, em **Definições → Qualidade gráfica** escolhe **baixa** e recarrega a página. No telemóvel o jogo começa em **média**.
 
-## Colocar no ar com GitHub Pages (passo a passo)
+## Pôr o jogo no ar com o GitHub Pages
 
-Isso só precisa ser feito uma vez. Pelo celular, use o **navegador** (Chrome ou Safari) em github.com, não o app do GitHub, porque o app não mostra as configurações do site.
+Só precisas de fazer isto uma vez. No telemóvel usa o **navegador** (Safari ou Chrome) em github.com, não a app do GitHub, porque a app não mostra estas definições.
 
-1. **Abra as configurações do repositório.** Entre em https://github.com/helioairosa11-ops/-ltimo-lume. Na barra de abas embaixo do nome do repositório (*Code, Issues, Pull requests...*), toque em **Settings**, a última aba, com ícone de engrenagem. No celular essa barra rola para o lado: arraste-a para a esquerda até ver **Settings**, ou toque no botão **···** no fim da barra e escolha **Settings**. Se ainda assim não aparecer, abra o menu do navegador e ative **Versão para computador** (Chrome) ou **Solicitar site para computador** (Safari).
-2. **Abra a seção Pages.** Na lista do lado esquerdo da página de Settings (no celular ela pode estar no topo, num menu que se abre), procure o grupo **Code and automation** e toque em **Pages**.
-3. **Escolha de onde o site vem.** Em **Build and deployment**, no campo **Source**, deixe **Deploy from a branch**. Logo abaixo, em **Branch**, toque no botão que diz **None** e escolha **main**. Ao lado aparece um segundo botão com a pasta: deixe **/ (root)**. Toque em **Save**.
-4. **Espere e abra o jogo.** O GitHub leva de um a três minutos para publicar. Recarregue a página de Pages: quando estiver pronto, aparece no topo a frase **"Your site is live at https://helioairosa11-ops.github.io/-ltimo-lume/"** e um botão **Visit site**. Esse é o link do jogo para jogar e compartilhar.
+1. Abre https://github.com/helioairosa11-ops/-ltimo-lume/settings/pages (é a página **Settings → Pages** do repositório; no menu da esquerda de Settings aparece como **Pages**, no grupo *Code and automation*).
+2. Em **Build and deployment**, no campo **Source**, deixa **Deploy from a branch**.
+3. Logo abaixo, em **Branch**, toca no botão que diz **None**, escolhe **main**, deixa a pasta **/ (root)** e toca em **Save**.
+4. Espera um a três minutos e recarrega a página. Quando aparecer no topo **"Your site is live at https://helioairosa11-ops.github.io/-ltimo-lume/"**, toca em **Visit site**. Esse é o link do jogo.
 
-Se depois de alguns minutos o link mostrar "404", espere mais um pouco e recarregue. A primeira publicação às vezes demora mais.
+Se o link mostrar "404", espera mais um bocado e recarrega. A primeira publicação às vezes demora.
 
 ## Instalar como app
 
-Com o site no ar:
+- **iPhone (Safari):** abre o link do jogo no Safari, toca em **Partilhar** (o quadrado com a seta para cima) e depois em **Adicionar ao ecrã principal**. Abre a app com o telemóvel deitado.
+- **Android (Chrome):** abre o link, toca nos três pontos ⋮ e depois em **Instalar app** ou **Adicionar ao ecrã principal**.
+- **Computador (Chrome ou Edge):** clica no ícone de instalar no lado direito da barra de endereço.
 
-- **Android (Chrome):** abra o link do jogo, toque em ⋮ (três pontos, no canto de cima) e depois em **Instalar app** ou **Adicionar à tela inicial**. O ícone da fogueira aparece junto dos seus apps.
-- **iPhone (Safari):** abra o link no Safari, toque em **Compartilhar** (quadrado com seta para cima) e depois em **Adicionar à Tela de Início**.
-- **PC (Chrome ou Edge):** clique no ícone de instalar no canto direito da barra de endereço.
+Depois da primeira abertura o jogo funciona sem internet. As músicas de cada área ficam guardadas a partir da primeira vez que tocam.
 
-Depois da primeira abertura, o jogo funciona offline. As músicas de cada área ficam guardadas a partir da primeira vez que tocam.
+## Correr no computador
 
-## Rodar no computador
+Qualquer servidor estático serve, por exemplo:
 
-Qualquer servidor estático serve. Por exemplo:
-
-```bash
+```
 python3 -m http.server 8000
 ```
 
-Depois abra http://localhost:8000. Abrir o `index.html` direto também funciona, mas aí o navegador bloqueia os arquivos de áudio e o jogo usa só os sons gerados por ele mesmo.
+e depois abre http://localhost:8000.
 
-## Arquivos
+O código-fonte está em `src/` (cada ficheiro `src/js/*.js` é um módulo: motor, personagens, chefes, áreas, interface). `python3 build.py` junta tudo em `dist/index.html`; copia esse ficheiro para `index.html` na raiz para publicar.
 
-- `index.html`: o jogo inteiro (HTML, CSS e JavaScript, sem dependências)
-- `audio/m/`: músicas; `audio/s/`: vozes, efeitos e ambientes
-- `manifest.webmanifest` e `sw.js`: instalação como app e modo offline
-- `icons/`: ícones do app
-- `CREDITS.md`: autor e licença de cada áudio
+## Créditos
 
-## Licença
+Feito com [three.js](https://threejs.org) (MIT). Personagens, cenários e texturas são gerados por código. Músicas e sons vêm dos jogos livres **Battle for Wesnoth** e **Flare**; autores e licenças de cada ficheiro estão em [CREDITS.md](CREDITS.md) e no ecrã de Créditos do jogo.
 
-O código e os textos são MIT (veja [LICENSE](LICENSE)). Os arquivos em `audio/` mantêm as licenças dos seus autores (CC BY 3.0, CC BY-SA 3.0 ou CC0), listadas em [CREDITS.md](CREDITS.md).
+O código do jogo está sob licença MIT (ver `LICENSE`). Os ficheiros de áudio mantêm as suas licenças originais (GPL v2+, CC BY-SA 4.0, CC BY-SA 3.0 ou CC BY 3.0, conforme o ficheiro).
